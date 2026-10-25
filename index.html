@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SpendWise — Personal Finance Tracker</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <div class="brand-logo" aria-hidden="true">₹</div>
+        <div>
+          <h1 class="brand-title">SpendWise</h1>
+          <p class="brand-subtitle">Your personal finance tracker</p>
+        </div>
+      </div>
+
+      <button type="button" id="theme-toggle" class="btn btn-secondary theme-btn" aria-label="Toggle colour theme">
+        <span id="theme-toggle-text">Dark Mode</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="container main-content">
+    <!-- Overall Financial Summary -->
+    <section class="summary-section" aria-labelledby="overall-summary-heading">
+      <div class="section-header">
+        <h2 id="overall-summary-heading" class="section-title">Overall Summary</h2>
+        <span class="section-meta" id="total-count-badge">0 transactions</span>
+      </div>
+
+      <div class="summary-grid">
+        <article class="summary-card">
+          <p class="summary-label">Total Income</p>
+          <p class="summary-value amount-income" id="total-income">₹0.00</p>
+        </article>
+
+        <article class="summary-card">
+          <p class="summary-label">Total Expenses</p>
+          <p class="summary-value amount-expense" id="total-expenses">₹0.00</p>
+        </article>
+
+        <article class="summary-card summary-card-balance">
+          <p class="summary-label">Current Balance</p>
+          <p class="summary-value" id="current-balance">₹0.00</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Monthly Overview -->
+    <section class="monthly-section card" aria-labelledby="monthly-summary-heading">
+      <div class="monthly-header">
+        <div>
+          <h2 id="monthly-summary-heading" class="section-title">Monthly Overview</h2>
+          <p class="section-description">View income, expenses, and net balance for a specific month.</p>
+        </div>
+
+        <div class="month-picker-group">
+          <label for="month-selector" class="form-label">Select Month</label>
+          <input type="month" id="month-selector" class="form-control">
+        </div>
+      </div>
+
+      <div class="monthly-grid">
+        <div class="monthly-stat">
+          <span class="monthly-stat-label">Monthly Income</span>
+          <strong class="monthly-stat-value amount-income" id="monthly-income">₹0.00</strong>
+        </div>
+
+        <div class="monthly-stat">
+          <span class="monthly-stat-label">Monthly Expenses</span>
+          <strong class="monthly-stat-value amount-expense" id="monthly-expenses">₹0.00</strong>
+        </div>
+
+        <div class="monthly-stat">
+          <span class="monthly-stat-label">Net Monthly Balance</span>
+          <strong class="monthly-stat-value" id="monthly-balance">₹0.00</strong>
+        </div>
+      </div>
+    </section>
+
+    <!-- Workspace: Form on Left, History on Right -->
+    <div class="workspace-grid">
+      <!-- Add / Edit Transaction Form -->
+      <section class="card form-section" aria-labelledby="form-heading">
+        <div class="form-header">
+          <h2 id="form-heading" class="section-title">Add Transaction</h2>
+          <span id="edit-mode-badge" class="badge-editing" hidden>Editing Entry</span>
+        </div>
+
+        <form id="transaction-form" novalidate>
+          <div class="form-group">
+            <label for="title-input" class="form-label">Transaction Title</label>
+            <input
+              type="text"
+              id="title-input"
+              class="form-control"
+              placeholder="e.g., Semester Textbooks, Mess Bill"
+              maxlength="80"
+              required
+            >
+            <p class="error-text" id="title-error" role="alert"></p>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="amount-input" class="form-label">Amount (₹)</label>
+              <input
+                type="number"
+                id="amount-input"
+                class="form-control"
+                placeholder="0.00"
+                step="0.01"
+                min="0.01"
+                required
+              >
+              <p class="error-text" id="amount-error" role="alert"></p>
+            </div>
+
+            <div class="form-group">
+              <label for="type-input" class="form-label">Transaction Type</label>
+              <select id="type-input" class="form-control" required>
+                <option value="expense">Expense</option>
+                <option value="income">Income</option>
+              </select>
+              <p class="error-text" id="type-error" role="alert"></p>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="category-input" class="form-label">Category</label>
+              <select id="category-input" class="form-control" required>
+                <!-- Populated dynamically by script.js based on transaction type -->
+              </select>
+              <p class="error-text" id="category-error" role="alert"></p>
+            </div>
+
+            <div class="form-group">
+              <label for="date-input" class="form-label">Date</label>
+              <input type="date" id="date-input" class="form-control" required>
+              <p class="error-text" id="date-error" role="alert"></p>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" id="submit-btn" class="btn btn-primary">Add Transaction</button>
+            <button type="button" id="cancel-edit-btn" class="btn btn-secondary" hidden>Cancel Edit</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Transaction History & Filters -->
+      <section class="card history-section" aria-labelledby="history-heading">
+        <div class="history-header">
+          <h2 id="history-heading" class="section-title">Transaction History</h2>
+          <p class="section-description" id="visible-count-text">Showing all transactions</p>
+        </div>
+
+        <!-- Search and Filters Bar -->
+        <div class="filters-bar" aria-label="Search and filter transactions">
+          <div class="filter-item filter-search">
+            <label for="search-input" class="form-label">Search Title</label>
+            <input
+              type="search"
+              id="search-input"
+              class="form-control"
+              placeholder="Search by title..."
+            >
+          </div>
+
+          <div class="filter-item">
+            <label for="filter-type" class="form-label">Type</label>
+            <select id="filter-type" class="form-control">
+              <option value="all">All Types</option>
+              <option value="income">Income Only</option>
+              <option value="expense">Expense Only</option>
+            </select>
+          </div>
+
+          <div class="filter-item">
+            <label for="filter-category" class="form-label">Category</label>
+            <select id="filter-category" class="form-control">
+              <option value="all">All Categories</option>
+              <option value="Food">Food</option>
+              <option value="Transport">Transport</option>
+              <option value="Shopping">Shopping</option>
+              <option value="Education">Education</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="Bills">Bills</option>
+              <option value="Salary">Salary</option>
+              <option value="Allowance">Allowance</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="filter-item">
+            <label for="sort-date" class="form-label">Sort by Date</label>
+            <select id="sort-date" class="form-control">
+              <option value="newest">Newest First</option>
+              <option value="oldest">Oldest First</option>
+            </select>
+          </div>
+
+          <div class="filter-item filter-reset">
+            <button type="button" id="reset-filters-btn" class="btn btn-secondary">Reset</button>
+          </div>
+        </div>
+
+        <!-- Transactions Table -->
+        <div class="table-container" id="table-container">
+          <table class="transactions-table" id="transactions-table">
+            <thead>
+              <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Transaction</th>
+                <th scope="col">Category</th>
+                <th scope="col">Type</th>
+                <th scope="col" class="col-amount">Amount</th>
+                <th scope="col" class="col-actions">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="transactions-tbody">
+              <!-- Populated dynamically via script.js -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Empty State -->
+        <div id="empty-state" class="empty-state">
+          <p class="empty-state-title" id="empty-state-title">No transactions recorded yet</p>
+          <p class="empty-state-text" id="empty-state-text">
+            Use the form on the left to add your first income or expense entry.
+          </p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>SpendWise &mdash; Built with HTML5, CSS3, and Vanilla JavaScript.</p>
+    </div>
+  </footer>
+</body>
+</html>

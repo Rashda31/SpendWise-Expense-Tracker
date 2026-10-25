@@ -1,0 +1,664 @@
+/* ==========================================================================
+   1. CSS Custom Properties (Light & Dark Themes)
+   ========================================================================== */
+:root,
+[data-theme="light"] {
+  --bg-page: #f4f6f8;
+  --bg-surface: #ffffff;
+  --bg-subtle: #f8fafc;
+  --bg-hover: #f1f5f9;
+
+  --text-main: #1e293b;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+
+  --border-color: #e2e8f0;
+  --border-strong: #cbd5e1;
+
+  --accent-primary: #0f766e;
+  --accent-hover: #115e59;
+  --accent-soft: #ccfbf1;
+  --focus-ring: rgba(15, 118, 110, 0.25);
+
+  --income-text: #15803d;
+  --income-bg: #dcfce7;
+  --expense-text: #b91c1c;
+  --expense-bg: #fee2e2;
+  --warning-bg: #fef3c7;
+  --warning-text: #92400e;
+
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+}
+
+[data-theme="dark"] {
+  --bg-page: #0f172a;
+  --bg-surface: #1e293b;
+  --bg-subtle: #162032;
+  --bg-hover: #263349;
+
+  --text-main: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+
+  --border-color: #334155;
+  --border-strong: #475569;
+
+  --accent-primary: #14b8a6;
+  --accent-hover: #2dd4bf;
+  --accent-soft: #134e4a;
+  --focus-ring: rgba(20, 184, 166, 0.3);
+
+  --income-text: #4ade80;
+  --income-bg: rgba(22, 101, 52, 0.35);
+  --expense-text: #f87171;
+  --expense-bg: rgba(153, 27, 27, 0.35);
+  --warning-bg: rgba(146, 64, 14, 0.35);
+  --warning-text: #fcd34d;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* ==========================================================================
+   2. Base Reset & Typography
+   ========================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+/* ==========================================================================
+   3. Header
+   ========================================================================== */
+.site-header {
+  background-color: var(--bg-surface);
+  border-bottom: 1px solid var(--border-color);
+  padding: 0.9rem 0;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.brand-logo {
+  width: 2.35rem;
+  height: 2.35rem;
+  background-color: var(--accent-primary);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1.2rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+[data-theme="dark"] .brand-logo {
+  color: #0f172a;
+}
+
+.brand-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.brand-subtitle {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   4. Main Layout & Shared Card Styles
+   ========================================================================== */
+.main-content {
+  flex: 1;
+  padding-top: 1.5rem;
+  padding-bottom: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 1.25rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.section-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.section-description {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 0.15rem;
+}
+
+.section-meta {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+}
+
+/* ==========================================================================
+   5. Overall Financial Summary
+   ========================================================================== */
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.summary-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 1.15rem 1.25rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.summary-card-balance {
+  border-left: 4px solid var(--accent-primary);
+}
+
+.summary-label {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.4rem;
+}
+
+.summary-value {
+  font-size: 1.65rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  word-break: break-word;
+}
+
+.amount-income {
+  color: var(--income-text);
+}
+
+.amount-expense {
+  color: var(--expense-text);
+}
+
+/* ==========================================================================
+   6. Monthly Overview
+   ========================================================================== */
+.monthly-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 1rem;
+}
+
+.month-picker-group {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.month-picker-group .form-label {
+  margin-bottom: 0;
+  white-space: nowrap;
+}
+
+.monthly-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.monthly-stat {
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  padding: 0.85rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.monthly-stat-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.monthly-stat-value {
+  font-size: 1.2rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================================================
+   7. Workspace Grid (Form + History)
+   ========================================================================== */
+.workspace-grid {
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.form-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.badge-editing {
+  font-size: 0.75rem;
+  font-weight: 600;
+  background-color: var(--warning-bg);
+  color: var(--warning-text);
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+}
+
+.form-group {
+  margin-bottom: 0.95rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 0.35rem;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  font-size: 0.9rem;
+  font-family: inherit;
+  color: var(--text-main);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+  border-radius: 5px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.form-control.input-invalid {
+  border-color: var(--expense-text);
+}
+
+.error-text {
+  min-height: 1.1rem;
+  font-size: 0.76rem;
+  color: var(--expense-text);
+  margin-top: 0.2rem;
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.35rem;
+}
+
+/* ==========================================================================
+   8. Buttons
+   ========================================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 0.55rem 1rem;
+  border-radius: 5px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.btn-primary {
+  background-color: var(--accent-primary);
+  color: #ffffff;
+  flex: 1;
+}
+
+[data-theme="dark"] .btn-primary {
+  color: #0f172a;
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-hover);
+}
+
+.btn-secondary {
+  background-color: var(--bg-subtle);
+  color: var(--text-main);
+  border-color: var(--border-strong);
+}
+
+.btn-secondary:hover {
+  background-color: var(--bg-hover);
+}
+
+.btn-action {
+  padding: 0.3rem 0.6rem;
+  font-size: 0.78rem;
+  border-radius: 4px;
+  background-color: var(--bg-subtle);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+}
+
+.btn-action:hover {
+  background-color: var(--bg-hover);
+  color: var(--text-main);
+  border-color: var(--border-strong);
+}
+
+.btn-action-delete:hover {
+  background-color: var(--expense-bg);
+  color: var(--expense-text);
+  border-color: var(--expense-text);
+}
+
+/* ==========================================================================
+   9. Filters & Transaction Table
+   ========================================================================== */
+.history-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.filters-bar {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1.1fr 1fr auto;
+  gap: 0.65rem;
+  align-items: end;
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  padding: 0.85rem;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.transactions-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.transactions-table th,
+.transactions-table td {
+  padding: 0.75rem 0.65rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+  vertical-align: middle;
+}
+
+.transactions-table th {
+  font-size: 0.76rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--text-muted);
+  background-color: var(--bg-subtle);
+}
+
+.transactions-table tbody tr:hover {
+  background-color: var(--bg-hover);
+}
+
+.col-amount,
+.cell-amount {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.col-actions,
+.cell-actions {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.action-group {
+  display: inline-flex;
+  gap: 0.4rem;
+}
+
+.type-badge {
+  display: inline-block;
+  font-size: 0.74rem;
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  text-transform: capitalize;
+}
+
+.type-badge-income {
+  background-color: var(--income-bg);
+  color: var(--income-text);
+}
+
+.type-badge-expense {
+  background-color: var(--expense-bg);
+  color: var(--expense-text);
+}
+
+.category-tag {
+  display: inline-block;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  padding: 0.1rem 0.45rem;
+  border-radius: 4px;
+}
+
+/* ==========================================================================
+   10. Empty State & Footer
+   ========================================================================== */
+.empty-state {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  border: 1px dashed var(--border-strong);
+  border-radius: 5px;
+  background-color: var(--bg-subtle);
+}
+
+.empty-state-title {
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 0.25rem;
+}
+
+.empty-state-text {
+  font-size: 0.86rem;
+  color: var(--text-muted);
+}
+
+.site-footer {
+  border-top: 1px solid var(--border-color);
+  background-color: var(--bg-surface);
+  padding: 1rem 0;
+  margin-top: auto;
+}
+
+.footer-inner {
+  text-align: center;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   11. Responsive Media Queries
+   ========================================================================== */
+@media (max-width: 980px) {
+  .workspace-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .filters-bar {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .filter-search {
+    grid-column: 1 / -1;
+  }
+
+  .filter-reset {
+    grid-column: 1 / -1;
+  }
+
+  .filter-reset .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 680px) {
+  .summary-grid,
+  .monthly-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .monthly-header {
+    align-items: stretch;
+  }
+
+  .month-picker-group {
+    justify-content: space-between;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .filters-bar {
+    grid-template-columns: 1fr;
+  }
+
+  /* Responsive Stacked Table Cards for Small Screens */
+  .transactions-table thead {
+    display: none;
+  }
+
+  .transactions-table,
+  .transactions-table tbody,
+  .transactions-table tr,
+  .transactions-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .transactions-table tr {
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    margin-bottom: 0.75rem;
+    padding: 0.35rem 0;
+    background-color: var(--bg-surface);
+  }
+
+  .transactions-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.45rem 0.85rem;
+    border-bottom: 1px solid var(--border-color);
+    text-align: right;
+  }
+
+  .transactions-table td:last-child {
+    border-bottom: none;
+  }
+
+  .transactions-table td::before {
+    content: attr(data-label);
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-right: 1rem;
+    text-align: left;
+  }
+}
