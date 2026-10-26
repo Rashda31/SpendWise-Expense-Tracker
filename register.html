@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Account | SpendWise — Personal Finance Tracker</title>
+  <link rel="stylesheet" href="./register.css" />
+</head>
+<body>
+  <header class="top-bar">
+    <div class="top-bar-inner">
+      <a href="./login.html" class="brand-link" aria-label="SpendWise Home">
+        <span class="brand-badge" aria-hidden="true">₹</span>
+        <span class="brand-name">SpendWise</span>
+      </a>
+      <button type="button" id="themeToggleBtn" class="theme-toggle-btn" aria-label="Toggle color theme">
+        <span id="themeIcon" aria-hidden="true">🌙</span>
+        <span id="themeLabel">Dark Mode</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="auth-container">
+    <section class="auth-card" aria-labelledby="registerHeading">
+      <div class="card-header">
+        <h1 id="registerHeading">Create Your Account</h1>
+        <p>Start tracking your income, expenses, and monthly savings with SpendWise.</p>
+      </div>
+
+      <div id="formAlert" class="alert-box hidden" role="alert" aria-live="polite"></div>
+
+      <form id="registerForm" novalidate>
+        <div class="form-group">
+          <label for="fullName">Full Name <span class="required-star" aria-hidden="true">*</span></label>
+          <input
+            type="text"
+            id="fullName"
+            name="fullName"
+            placeholder="e.g., Rashda Qamar"
+            autocomplete="name"
+            required
+            aria-describedby="fullNameError"
+          />
+          <small id="fullNameError" class="field-error" aria-live="polite"></small>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address <span class="required-star" aria-hidden="true">*</span></label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="name@example.com"
+            autocomplete="email"
+            required
+            aria-describedby="emailError"
+          />
+          <small id="emailError" class="field-error" aria-live="polite"></small>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password <span class="required-star" aria-hidden="true">*</span></label>
+          <div class="password-input-wrapper">
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Minimum 6 characters"
+              autocomplete="new-password"
+              required
+              aria-describedby="passwordError"
+            />
+            <button
+              type="button"
+              id="togglePasswordBtn"
+              class="password-toggle-btn"
+              aria-label="Show password"
+              aria-pressed="false"
+            >
+              Show
+            </button>
+          </div>
+          <small id="passwordError" class="field-error" aria-live="polite"></small>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password <span class="required-star" aria-hidden="true">*</span></label>
+          <div class="password-input-wrapper">
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              placeholder="Re-enter your password"
+              autocomplete="new-password"
+              required
+              aria-describedby="confirmPasswordError"
+            />
+            <button
+              type="button"
+              id="toggleConfirmPasswordBtn"
+              class="password-toggle-btn"
+              aria-label="Show confirm password"
+              aria-pressed="false"
+            >
+              Show
+            </button>
+          </div>
+          <small id="confirmPasswordError" class="field-error" aria-live="polite"></small>
+        </div>
+
+        <button type="submit" id="registerSubmitBtn" class="primary-btn">
+          Create SpendWise Account
+        </button>
+      </form>
+
+      <div class="auth-Switch">
+        <p>Already have an account? <a href="./login.html" class="auth-link">Log in here</a></p>
+      </div>
+
+      <aside class="demo-security-note" aria-label="Security Notice">
+        <strong>Portfolio Demo Notice:</strong> SpendWise runs entirely in your browser using LocalStorage and SHA-256 client-side hashing. Do not reuse sensitive real-world passwords.
+      </aside>
+    </section>
+  </main>
+
+  <script src="./register.js"></script>
+</body>
+</html>

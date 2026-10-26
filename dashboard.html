@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard | SpendWise — Personal Finance Tracker</title>
+  <link rel="stylesheet" href="./dashboard.css" />
+</head>
+<body>
+  <!-- Top Navigation Bar -->
+  <header class="navbar">
+    <div class="navbar-inner">
+      <div class="brand-group">
+        <span class="brand-badge" aria-hidden="true">₹</span>
+        <div>
+          <span class="brand-name">SpendWise</span>
+          <span class="brand-tag">Personal Finance Tracker</span>
+        </div>
+      </div>
+
+      <div class="nav-actions">
+        <!-- Theme Toggle Button -->
+        <button type="button" id="themeToggleBtn" class="icon-btn" aria-label="Toggle color theme">
+          <span id="themeIcon" aria-hidden="true">🌙</span>
+          <span id="themeLabel" class="hide-mobile">Dark Mode</span>
+        </button>
+
+        <!-- Top-Right User Profile Menu -->
+        <div class="profile-menu-container" id="profileMenuContainer">
+          <button
+            type="button"
+            id="profileMenuBtn"
+            class="profile-trigger-btn"
+            aria-expanded="false"
+            aria-haspopup="true"
+            aria-controls="profileDropdown"
+          >
+            <span id="userAvatarInitials" class="user-avatar" aria-hidden="true">U</span>
+            <span id="navUserName" class="nav-user-name">User</span>
+            <span class="caret-icon" aria-hidden="true">▾</span>
+          </button>
+
+          <div id="profileDropdown" class="profile-dropdown hidden" role="menu" aria-label="User Profile Menu">
+            <div class="dropdown-user-header">
+              <strong id="dropdownUserName">User Name</strong>
+              <small id="dropdownUserEmail">user@example.com</small>
+            </div>
+            <hr class="dropdown-divider" />
+            <button type="button" id="openEditProfileBtn" class="dropdown-item" role="menuitem">
+              <span aria-hidden="true">✏️</span> Edit Profile
+            </button>
+            <button type="button" id="logoutBtn" class="dropdown-item danger-item" role="menuitem">
+              <span aria-hidden="true">🚪</span> Logout
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Dashboard Content -->
+  <main class="dashboard-main">
+    <!-- Welcome Banner -->
+    <section class="welcome-banner" aria-labelledby="welcomeHeading">
+      <div class="welcome-text">
+        <h1 id="welcomeHeading">Welcome back, <span id="welcomeUserName">User</span>!</h1>
+        <p id="welcomeSubtext">Track your income, monitor monthly expenses, and stay on top of your financial goals.</p>
+      </div>
+      <div class="welcome-meta">
+        <div id="budgetStatusBadge" class="budget-pill hidden"></div>
+      </div>
+    </section>
+
+    <!-- Status Notification Banner -->
+    <div id="dashboardToast" class="toast-banner hidden" role="status" aria-live="polite"></div>
+
+    <!-- Overall Summary Cards -->
+    <section class="summary-grid" aria-label="Overall Financial Summary">
+      <article class="summary-card balance-card">
+        <div class="card-label-row">
+          <span class="card-label">Net Balance</span>
+          <span class="card-icon" aria-hidden="true">🏦</span>
+        </div>
+        <p id="totalBalance" class="card-amount">₹0.00</p>
+        <small class="card-footnote">All-time net savings</small>
+      </article>
+
+      <article class="summary-card income-card">
+        <div class="card-label-row">
+          <span class="card-label">Total Income</span>
+          <span class="card-icon" aria-hidden="true">📈</span>
+        </div>
+        <p id="totalIncome" class="card-amount income-text">₹0.00</p>
+        <small class="card-footnote">All recorded inflows</small>
+      </article>
+
+      <article class="summary-card expense-card">
+        <div class="card-label-row">
+          <span class="card-label">Total Expenses</span>
+          <span class="card-icon" aria-hidden="true">📉</span>
+        </div>
+        <p id="totalExpense" class="card-amount expense-text">₹0.00</p>
+        <small class="card-footnote">All recorded outflows</small>
+      </article>
+    </section>
+
+    <!-- Monthly Cash Flow Overview Section -->
+    <section class="monthly-overview-panel" aria-labelledby="monthlyOverviewHeading">
+      <div class="panel-header">
+        <div>
+          <h2 id="monthlyOverviewHeading">Monthly Overview</h2>
+          <p class="panel-subtitle">Analyze cash flow for any specific month</p>
+        </div>
+        <div class="month-picker-group">
+          <label for="overviewMonthInput">Select Month:</label>
+          <input type="month" id="overviewMonthInput" />
+          <button type="button" id="resetMonthBtn" class="secondary-btn small-btn">All Months</button>
+        </div>
+      </div>
+
+      <div class="monthly-stats-grid">
+        <div class="mini-stat">
+          <span class="mini-label" id="monthlyPeriodLabel">Selected Period Income</span>
+          <strong id="monthlyIncomeVal" class="income-text">₹0.00</strong>
+        </div>
+        <div class="mini-stat">
+          <span class="mini-label">Selected Period Expense</span>
+          <strong id="monthlyExpenseVal" class="expense-text">₹0.00</strong>
+        </div>
+        <div class="mini-stat">
+          <span class="mini-label">Selected Period Net Flow</span>
+          <strong id="monthlyNetVal">₹0.00</strong>
+        </div>
+        <div class="mini-stat">
+          <span class="mini-label">Savings Rate</span>
+          <strong id="monthlySavingsRate">0%</strong>
+        </div>
+      </div>
+    </section>
+
+    <!-- Workspace Grid: Add/Edit Transaction Form + Transaction History -->
+    <div class="workspace-grid">
+      <!-- Left Column: Add / Edit Transaction Form -->
+      <section class="panel form-panel" aria-labelledby="transactionFormHeading">
+        <div class="panel-header">
+          <h2 id="transactionFormHeading">Add New Transaction</h2>
+        </div>
+
+        <form id="transactionForm" novalidate>
+          <input type="hidden" id="editingTransactionId" value="" />
+
+          <div class="form-group">
+            <label for="txTitle">Description / Title <span class="required-star">*</span></label>
+            <input
+              type="text"
+              id="txTitle"
+              placeholder="e.g., Semester Stipend, Mess Fee, Books"
+              required
+            />
+            <small id="txTitleError" class="field-error"></small>
+          </div>
+
+          <div class="form-row-two">
+            <div class="form-group">
+              <label for="txAmount">Amount (₹) <span class="required-star">*</span></label>
+              <input
+                type="number"
+                id="txAmount"
+                placeholder="0.00"
+                step="0.01"
+                min="0.01"
+                required
+              />
+              <small id="txAmountError" class="field-error"></small>
+            </div>
+
+            <div class="form-group">
+              <label for="txType">Type <span class="required-star">*</span></label>
+              <select id="txType" required>
+                <option value="expense">Expense (-)</option>
+                <option value="income">Income (+)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row-two">
+            <div class="form-group">
+              <label for="txCategory">Category <span class="required-star">*</span></label>
+              <select id="txCategory" required>
+                <option value="Food & Dining">Food & Dining</option>
+                <option value="Education & Books">Education & Books</option>
+                <option value="Transport & Travel">Transport & Travel</option>
+                <option value="Rent & Utilities">Rent & Utilities</option>
+                <option value="Shopping">Shopping</option>
+                <option value="Health & Fitness">Health & Fitness</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Salary & Stipend">Salary & Stipend</option>
+                <option value="Freelance & Projects">Freelance & Projects</option>
+                <option value="Investments & Gifts">Investments & Gifts</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="txDate">Date <span class="required-star">*</span></label>
+              <input type="date" id="txDate" required />
+              <small id="txDateError" class="field-error"></small>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="txNotes">Notes (Optional)</label>
+            <input
+              type="text"
+              id="txNotes"
+              placeholder="Optional payment mode or remark"
+            />
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" id="txSubmitBtn" class="primary-btn">
+              Add Transaction
+            </button>
+            <button type="button" id="txCancelEditBtn" class="secondary-btn hidden">
+              Cancel Edit
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Right Column: Transaction History with Search, Filter, and Sort -->
+      <section class="panel history-panel" aria-labelledby="historyHeading">
+        <div class="panel-header history-header">
+          <div>
+            <h2 id="historyHeading">Transaction History</h2>
+            <p class="panel-subtitle">Showing <span id="txCountBadge">0</span> transaction(s)</p>
+          </div>
+        </div>
+
+        <!-- Filter & Search Controls -->
+        <div class="filter-bar" aria-label="Search, filter, and sort transactions">
+          <div class="search-box">
+            <label for="searchInput" class="sr-only">Search transactions</label>
+            <input
+              type="search"
+              id="searchInput"
+              placeholder="Search title, category, or notes..."
+            />
+          </div>
+
+          <div class="filter-selects">
+            <label for="filterTypeSelect" class="sr-only">Filter by type</label>
+            <select id="filterTypeSelect" title="Filter by Transaction Type">
+              <option value="all">All Types</option>
+              <option value="income">Income Only</option>
+              <option value="expense">Expense Only</option>
+            </select>
+
+            <label for="filterCategorySelect" class="sr-only">Filter by category</label>
+            <select id="filterCategorySelect" title="Filter by Category">
+              <option value="all">All Categories</option>
+              <option value="Food & Dining">Food & Dining</option>
+              <option value="Education & Books">Education & Books</option>
+              <option value="Transport & Travel">Transport & Travel</option>
+              <option value="Rent & Utilities">Rent & Utilities</option>
+              <option value="Shopping">Shopping</option>
+              <option value="Health & Fitness">Health & Fitness</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="Salary & Stipend">Salary & Stipend</option>
+              <option value="Freelance & Projects">Freelance & Projects</option>
+              <option value="Investments & Gifts">Investments & Gifts</option>
+              <option value="Other">Other</option>
+            </select>
+
+            <label for="sortSelect" class="sr-only">Sort transactions</label>
+            <select id="sortSelect" title="Sort Transactions">
+              <option value="date-desc">Newest First</option>
+              <option value="date-asc">Oldest First</option>
+              <option value="amount-desc">Amount: High to Low</option>
+              <option value="amount-asc">Amount: Low to High</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Transaction List -->
+        <div id="transactionListContainer" class="transaction-list-container">
+          <ul id="transactionList" class="transaction-list" aria-live="polite"></ul>
+          <div id="emptyStateBox" class="empty-state">
+            <p class="empty-title">No transactions found</p>
+            <p class="empty-subtitle">Add your first transaction using the form or adjust your search filters.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Edit Profile Modal -->
+  <div
+    id="editProfileModal"
+    class="modal-overlay hidden"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="editProfileModalTitle"
+  >
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 id="editProfileModalTitle">Edit User Profile</h2>
+        <button type="button" id="closeProfileModalBtn" class="modal-close-btn" aria-label="Close modal">
+          ✕
+        </button>
+      </div>
+
+      <div id="profileModalAlert" class="alert-box hidden" role="alert"></div>
+
+      <form id="editProfileForm" novalidate>
+        <div class="form-group">
+          <label for="profileFullName">Full Name <span class="required-star">*</span></label>
+          <input
+            type="text"
+            id="profileFullName"
+            placeholder="Your full name"
+            required
+          />
+          <small id="profileFullNameError" class="field-error"></small>
+        </div>
+
+        <div class="form-group">
+          <label for="profileEmail">Email Address <span class="required-star">*</span></label>
+          <input
+            type="email"
+            id="profileEmail"
+            placeholder="name@example.com"
+            required
+          />
+          <small id="profileEmailError" class="field-error"></small>
+        </div>
+
+        <div class="form-group">
+          <label for="profileMonthlyBudget">Monthly Expense Budget Target (₹) (Optional)</label>
+          <input
+            type="number"
+            id="profileMonthlyBudget"
+            placeholder="e.g., 15000"
+            min="0"
+            step="100"
+          />
+          <small id="profileBudgetError" class="field-error"></small>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" id="cancelProfileModalBtn" class="secondary-btn">
+            Cancel
+          </button>
+          <button type="submit" class="primary-btn">
+            Save Profile Changes
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <footer class="dashboard-footer">
+    <p>
+      <strong>SpendWise</strong> — Client-Side Personal Finance Tracker • Built with HTML5, CSS3 &amp; Vanilla JS
+      <span class="footer-note">(Demo note: Frontend LocalStorage session protection is for demonstration purposes only.)</span>
+    </p>
+  </footer>
+
+  <script src="./dashboard.js"></script>
+</body>
+</html>

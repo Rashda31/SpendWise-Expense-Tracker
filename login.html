@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login | SpendWise — Personal Finance Tracker</title>
+  <link rel="stylesheet" href="./login.css" />
+</head>
+<body>
+  <header class="top-bar">
+    <div class="top-bar-inner">
+      <a href="./login.html" class="brand-link" aria-label="SpendWise Home">
+        <span class="brand-badge" aria-hidden="true">₹</span>
+        <span class="brand-name">SpendWise</span>
+      </a>
+      <button type="button" id="themeToggleBtn" class="theme-toggle-btn" aria-label="Toggle color theme">
+        <span id="themeIcon" aria-hidden="true">🌙</span>
+        <span id="themeLabel">Dark Mode</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="auth-container">
+    <section class="auth-card" aria-labelledby="loginHeading">
+      <div class="card-header">
+        <h1 id="loginHeading">Welcome Back</h1>
+        <p>Log in to manage your personal finances and monthly cash flow.</p>
+      </div>
+
+      <div id="loginAlert" class="alert-box hidden" role="alert" aria-live="polite"></div>
+
+      <form id="loginForm" novalidate>
+        <div class="form-group">
+          <label for="loginEmail">Email Address <span class="required-star" aria-hidden="true">*</span></label>
+          <input
+            type="email"
+            id="loginEmail"
+            name="email"
+            placeholder="name@example.com"
+            autocomplete="email"
+            required
+            aria-describedby="loginEmailError"
+          />
+          <small id="loginEmailError" class="field-error" aria-live="polite"></small>
+        </div>
+
+        <div class="form-group">
+          <label for="loginPassword">Password <span class="required-star" aria-hidden="true">*</span></label>
+          <div class="password-input-wrapper">
+            <input
+              type="password"
+              id="loginPassword"
+              name="password"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+              required
+              aria-describedby="loginPasswordError"
+            />
+            <button
+              type="button"
+              id="toggleLoginPasswordBtn"
+              class="password-toggle-btn"
+              aria-label="Show password"
+              aria-pressed="false"
+            >
+              Show
+            </button>
+          </div>
+          <small id="loginPasswordError" class="field-error" aria-live="polite"></small>
+        </div>
+
+        <button type="submit" id="loginSubmitBtn" class="primary-btn">
+          Log In to SpendWise
+        </button>
+      </form>
+
+      <div class="auth-switch">
+        <p>New to SpendWise? <a href="./register.html" class="auth-link">Create an account</a></p>
+      </div>
+
+      <aside class="demo-security-note" aria-label="Security Notice">
+        <strong>Frontend-Only Demo:</strong> Authentication state is stored in your browser's LocalStorage for GitHub Pages compatibility.
+      </aside>
+    </section>
+  </main>
+
+  <script src="./login.js"></script>
+</body>
+</html>

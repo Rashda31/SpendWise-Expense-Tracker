@@ -1,76 +1,100 @@
-# SpendBuddy — Your Friendly Expense Tracker
+# SpendWise — Personal Finance Tracker
 
-SpendBuddy is a simple and user-friendly expense tracking web application built using HTML, CSS, and JavaScript. It helps users manage their income and expenses, track transactions, and keep an eye on their spending habits through a clean and interactive interface.
+SpendWise is a responsive, client-side personal finance tracker built using **HTML5, CSS3, and Vanilla JavaScript**. It helps users manage their income, expenses, monthly budgets, and savings through an interactive dashboard.
+
+The application includes demo registration and login, profile management, transaction tracking, and light and dark themes. All data is stored locally in the browser without requiring a backend or database server.
 
 ## Features
 
-**Financial Dashboard:** View your total balance, income, and expenses at a glance.
+### 1. User Registration & Login
 
-**Transaction Management:** Add, edit, and delete income and expense transactions.
+* Register demo accounts with duplicate email prevention.
+* Validate registration and login forms.
+* Show or hide passwords.
+* Generate salted SHA-256 password hashes using the Web Crypto API.
+* Maintain user sessions using browser storage.
 
-**Categories:** Organize transactions using different categories.
+### 2. Personalized Dashboard
 
-**Search and Filter:** Find specific transactions and filter them according to your needs.
+* Display a personalized greeting.
+* View total income, expenses, and net balance.
+* Display financial information in Indian Rupees (₹).
 
-**Sorting:** Sort transactions for easier tracking.
+### 3. Profile Management
 
-**Monthly Overview:** Review your financial activity month by month.
+* Update name, email, and monthly budget targets.
+* Reflect profile changes in the dashboard.
 
-**Local Storage:** Keep your transaction data saved in your browser, even after refreshing the page.
+### 4. Transaction Management
 
-**Light and Dark Mode:** Switch between themes according to your preference.
-**Input Validation:** Validate transaction details before saving.
-**Responsive Design:** Use SpendBuddy on different screen sizes.
+* Add, edit, and delete transactions.
+* Organize transactions by category.
+* Search, filter, and sort transactions.
+* Maintain separate transaction records for each user.
 
-## Tech Stack
+### 5. Financial Overview
 
-* **HTML5** — Structure
-* **CSS3** — Styling and responsive design
-* **JavaScript** — Application logic and interactivity
-* **Local Storage API** — Saving data in the browser
+* Track all-time income, expenses, and net balance.
+* Review monthly income, expenses, and net cash flow.
+* Calculate the monthly savings rate.
+
+### 6. Additional Features
+
+* Persistent light and dark themes.
+* Responsive design for desktop, tablet, and mobile.
+* Legacy transaction migration from supported earlier versions.
+
+## Technologies Used
+
+* **HTML5** — Page structure.
+* **CSS3** — Styling and responsive layouts.
+* **Vanilla JavaScript** — Application logic and interactivity.
+* **Web Crypto API** — Password hashing.
+* **LocalStorage** — Local data persistence.
 
 ## Project Structure
 
 ```text
-spendbuddy-expense-tracker/
-│
+SpendWise/
 ├── index.html
-├── style.css
-├── script.js
+├── register.html
+├── register.css
+├── register.js
+├── login.html
+├── login.css
+├── login.js
+├── dashboard.html
+├── dashboard.css
+├── dashboard.js
 └── README.md
 ```
 
+## Getting Started
+
+**Prerequisites:** A modern web browser, Visual Studio Code, and the Live Server extension (recommended).
+
+1. Clone or download the repository.
+2. Open the project folder in Visual Studio Code.
+3. Run `index.html` using Live Server.
+4. Register a demo account and log in to start tracking your finances.
+
 ## Data Storage
 
-SpendBuddy uses the browser's Local Storage API to save transaction information. Your data remains available when you refresh or reopen the application in the same browser.
+SpendWise stores demo accounts, password hashes, sessions, transactions, profile settings, and theme preferences in browser storage.
 
-**Note:** SpendBuddy is currently a frontend-only application. Transaction data is stored locally in your browser and is not synchronized across devices.
+Data is browser-specific and may be lost if browser storage is cleared. It does not automatically synchronize across devices.
 
-## What I Learned
+## Security & Limitations
 
-Building SpendBuddy helped me practice:
-
-* Creating a structured web page using HTML.
-* Designing responsive layouts with CSS.
-* Using JavaScript to handle user interactions.
-* Managing transaction data and implementing CRUD operations.
-* Working with browser Local Storage.
-* Implementing search, filtering, sorting, and theme switching.
-* Validating user input and updating the interface dynamically.
+SpendWise is a frontend demonstration project, not a production banking application. Client-side authentication and SHA-256 hashing do not provide production-level security. Browser storage can be inspected or modified, and the application has no backend or database.
 
 ## Future Improvements
 
-* Add charts to visualize spending habits.
-* Introduce monthly budgets and spending limits.
-* Add transaction export functionality.
-* Build a full-stack version with user authentication and database storage.
+* Backend authentication and database integration.
+* Spending charts and category-wise analytics.
+* CSV export and transaction import.
+* Budget alerts and savings goals.
 
-## Author
+## Project Purpose
 
-**Rashda Qamar**
-
-GitHub: [@Rashda31](https://github.com/Rashda31)
-
----
-
-*SpendBuddy — Your money, a little more organized.*
+SpendWise demonstrates practical frontend development skills, including DOM manipulation, form validation, CRUD operations, browser storage, filtering, sorting, and responsive design.
